@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/haxe/scripts/new_script.gd" type="Script" id=1]
+
+[node name="NewScript" type="WindowDialog"]
+margin_right = 278.0
+margin_bottom = 199.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+window_title = "Attach Node Haxe Script"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Content" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Properties" type="VBoxContainer" parent="Content"]
+margin_right = 278.0
+margin_bottom = 175.0
+size_flags_vertical = 3
+
+[node name="ClassName" type="HBoxContainer" parent="Content/Properties"]
+margin_right = 278.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Content/Properties/ClassName"]
+margin_top = 5.0
+margin_right = 79.0
+margin_bottom = 19.0
+text = "Class Name:"
+
+[node name="LineEdit" type="LineEdit" parent="Content/Properties/ClassName"]
+margin_left = 83.0
+margin_right = 278.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Path" type="HBoxContainer" parent="Content/Properties"]
+margin_top = 28.0
+margin_right = 278.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Content/Properties/Path"]
+margin_top = 5.0
+margin_right = 32.0
+margin_bottom = 19.0
+text = "Path:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="Content/Properties/Path"]
+margin_left = 36.0
+margin_right = 278.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Content"]
+margin_top = 179.0
+margin_right = 278.0
+margin_bottom = 199.0
+
+[node name="Cancel" type="Button" parent="Content/Buttons"]
+margin_right = 54.0
+margin_bottom = 20.0
+text = "Cancel"
+
+[node name="Create" type="Button" parent="Content/Buttons"]
+margin_left = 58.0
+margin_right = 111.0
+margin_bottom = 20.0
+text = "Create"

@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="About" type="AcceptDialog"]
+margin_right = 83.0
+margin_bottom = 58.0
+window_title = "About Haxe support"
+dialog_text = "This plugin adds support for the Haxe programming language.
+Haxe support is in alpha.
+
+Discuss usage at: https://github.com/HaxeGodot/godot/discussions
+
+Report bugs about the editor plugin at: https://github.com/HaxeGodot/editor-plugin/issues/
+Report bugs about the code support at: https://github.com/HaxeGodot/godot/issues/
+"
