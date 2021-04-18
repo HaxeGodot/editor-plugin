@@ -3,80 +3,132 @@
 [ext_resource path="res://addons/haxe/scripts/new_script.gd" type="Script" id=1]
 
 [node name="NewScript" type="WindowDialog"]
-margin_right = 278.0
-margin_bottom = 199.0
+margin_right = 350.0
+margin_bottom = 190.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 window_title = "Attach Node Haxe Script"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Content" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Properties" type="VBoxContainer" parent="Content"]
-margin_right = 278.0
-margin_bottom = 175.0
-size_flags_vertical = 3
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ClassName" type="HBoxContainer" parent="Content/Properties"]
-margin_right = 278.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 330.0
+margin_bottom = 170.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="Content/Properties/ClassName"]
-margin_top = 5.0
-margin_right = 79.0
-margin_bottom = 19.0
-text = "Class Name:"
-
-[node name="LineEdit" type="LineEdit" parent="Content/Properties/ClassName"]
-margin_left = 83.0
-margin_right = 278.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-
-[node name="Path" type="HBoxContainer" parent="Content/Properties"]
-margin_top = 28.0
-margin_right = 278.0
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+margin_right = 330.0
 margin_bottom = 52.0
-size_flags_horizontal = 3
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="Content/Properties/Path"]
+[node name="ClassLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_top = 5.0
-margin_right = 32.0
+margin_right = 54.0
 margin_bottom = 19.0
+text = "Inherits:"
+
+[node name="ClassValue" type="LineEdit" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 58.0
+margin_right = 330.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "VBoxContainer"
+
+[node name="PathLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_top = 33.0
+margin_right = 54.0
+margin_bottom = 47.0
 text = "Path:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="Content/Properties/Path"]
-margin_left = 36.0
-margin_right = 278.0
+[node name="Path" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 58.0
+margin_top = 28.0
+margin_right = 330.0
+margin_bottom = 52.0
+
+[node name="PathValue" type="LineEdit" parent="MarginContainer/VBoxContainer/GridContainer/Path"]
+margin_right = 256.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+text = "res://scripts/VBoxContainer.hx"
 
-[node name="Buttons" type="HBoxContainer" parent="Content"]
-margin_top = 179.0
-margin_right = 278.0
-margin_bottom = 199.0
+[node name="Load" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/Path"]
+margin_left = 260.0
+margin_right = 272.0
+margin_bottom = 24.0
 
-[node name="Cancel" type="Button" parent="Content/Buttons"]
-margin_right = 54.0
+[node name="PaddingTop" type="Control" parent="MarginContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 330.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
+margin_top = 70.0
+margin_right = 330.0
+margin_bottom = 132.0
+focus_mode = 0
+size_flags_vertical = 3
+custom_colors/font_color = Color( 0, 1, 0, 1 )
+text = "- Haxe script path is valid.
+- Will create a new Haxe script."
+readonly = true
+syntax_highlighting = true
+selecting_enabled = false
+
+[node name="PaddingBottom" type="Control" parent="MarginContainer/VBoxContainer"]
+margin_top = 136.0
+margin_right = 330.0
+margin_bottom = 146.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 150.0
+margin_right = 330.0
+margin_bottom = 170.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
+margin_left = 92.0
+margin_right = 146.0
 margin_bottom = 20.0
 text = "Cancel"
 
-[node name="Create" type="Button" parent="Content/Buttons"]
-margin_left = 58.0
-margin_right = 111.0
+[node name="Padding" type="Control" parent="MarginContainer/VBoxContainer/Buttons"]
+margin_left = 150.0
+margin_right = 180.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 30, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Create" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
+margin_left = 184.0
+margin_right = 237.0
 margin_bottom = 20.0
 text = "Create"

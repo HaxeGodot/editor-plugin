@@ -64,27 +64,26 @@ func setup_menu(base:Control, menu:Popup, has_script:bool) -> void:
 	menu.connect("index_pressed", self, "on_popup_select", [has_script])
 
 func on_popup_select(id:int, has_script:bool) -> void:
-	print(id, has_script)
-	
 	if id == 0: # New/Remove
 		if not has_script: # New
 			var dialog := new_script_dialog.instance()
+			dialog.setup(base)
 			dialog.theme = base.theme
-			dialog.get_node("Content").connect("cancel", self, "on_cancel")
-			dialog.get_node("Content").connect("create", self, "on_create")
+			dialog.connect("create", self, "on_create")
 			base.add_child(dialog)
 			dialog.popup_centered()
 		else: # Remove
+			object.remove_meta("haxe_script")
 			object.set_script(null)
 	elif id == 2: # Load
 		var dialog := EditorFileDialog.new()
+		base.add_child(dialog)
 		dialog.access = EditorFileDialog.ACCESS_RESOURCES
 		dialog.current_dir = "res://scripts/"
 		dialog.mode = EditorFileDialog.MODE_OPEN_FILE
 		dialog.theme = base.theme
-		dialog.add_filter("*.hx ; Haxe scripts")
+		dialog.add_filter("*.hx ; Haxe script")
 		dialog.connect("file_selected", self, "on_load_file")
-		base.add_child(dialog)
 		dialog.popup_centered_ratio()
 	else:
 		print("Unknown entry: ", id)
@@ -92,15 +91,18 @@ func on_popup_select(id:int, has_script:bool) -> void:
 func on_cancel() -> void:
 	print("cancel")
 	
-func on_create() -> void:
-	print("create")
+func on_create(is_load:bool, class_value:String, path_value:String) -> void:
+	if is_load:
+		on_load_file(path_value)
+	else:
+		# TODO
+		print("create ", class_value, " ", path_value)
 
 func on_load_file(path:String) -> void:
 	object.set_meta("haxe_script", path)
 	var cs_path := path.replace("res://scripts/", "res://build/src/")
 	var p := cs_path.find_last(".hx")
 	cs_path = cs_path.substr(0, p) + ".cs"
-	print(path, " => ", cs_path)
 	var cs_file := File.new()
 	if not cs_file.file_exists(cs_path):
 		cs_file.open(cs_path, File.WRITE)
