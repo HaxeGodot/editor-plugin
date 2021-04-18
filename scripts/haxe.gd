@@ -30,6 +30,15 @@ func setup_settings() -> void:
 	if not ProjectSettings.has_setting(HaxePluginConstants.SETTING_HIDE_NATIVE_SCRIPT_FIELD):
 		ProjectSettings.set_setting(HaxePluginConstants.SETTING_HIDE_NATIVE_SCRIPT_FIELD, true)
 
+	if not ProjectSettings.has_setting(HaxePluginConstants.SETTING_EXTERNAL_EDITOR):
+		ProjectSettings.set_setting(HaxePluginConstants.SETTING_EXTERNAL_EDITOR, "VSCode")
+		ProjectSettings.add_property_info({
+			"name": HaxePluginConstants.SETTING_EXTERNAL_EDITOR,
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_ENUM,
+			"hint_string": "VSCode"
+		});
+
 func on_menu(id:int) -> void:
 	if id == 0: # About
 		var dialog := about_dialog.instance()

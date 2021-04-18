@@ -20,16 +20,15 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer/GridContainer/ClassValue.connect("text_changed", self, "on_class")
 	$MarginContainer/VBoxContainer/GridContainer/Path/PathValue.connect("text_changed", self, "on_path")
 	
-	# TODO
-	on_class("VBoxContainer")
-	on_path("res://scripts/VBoxContainer.hx")
-	
-func setup(base:Control) -> void:
+func setup(base:Control, class_value:String, name:String) -> void:
 	self.base = base
 	
 	var path_button := $MarginContainer/VBoxContainer/GridContainer/Path/Load
 	path_button.icon = base.get_icon("Folder", "EditorIcons")
 	path_button.connect("button_down", self, "on_folder")
+	
+	on_class(class_value)
+	on_path("res://scripts/" + name.substr(0, 1).to_upper() + name.substr(1) + ".hx")
 
 func on_cancel() -> void:
 	hide()

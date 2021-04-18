@@ -13,7 +13,7 @@ func can_handle(object:Object) -> bool:
 
 #warning-ignore:unused_argument
 func parse_property(object:Object, type:int, path:String, hint:int, hint_text:String, usage:int) -> bool:
-	if type == TYPE_OBJECT and path == "script":
+	if object is Node and type == TYPE_OBJECT and path == "script":
 		var e := HaxePluginEditorProperty.new()
 		e.setup(base, object)
 		add_custom_control(e)
