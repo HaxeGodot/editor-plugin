@@ -40,13 +40,39 @@ func setup_settings() -> void:
 		});
 
 func on_menu(id:int) -> void:
+	var theme := get_editor_interface().get_base_control().theme
+	
 	if id == 0: # About
 		var dialog := about_dialog.instance()
-		dialog.theme = get_editor_interface().get_base_control().theme
 		add_child(dialog)
+		dialog.theme = theme
 		dialog.popup_centered()
 	elif id == 1: # Setup
-		print("TODO: Setup Haxe")
-		pass
+		var output := []
+		OS.execute("haxe", ["--class-path", "addons/haxe/scripts", "--run", "Setup"], true, output, true)
+		
+		var dialog := AcceptDialog.new()
+		add_child(dialog)
+		
+		if output.size() != 1:
+			dialog.dialog_text = "Unknown error:\n" + PoolStringArray(output).join("\n")
+		elif "command not found" in output[0].to_lower():
+			dialog.dialog_text = "Haxe command not found."
+		elif output[0] == "haxelib":
+			dialog.dialog_text = "Godot externs not found.\nRun 'haxelib install godot' first."
+		elif output[0] == "multiple_csproj":
+			dialog.dialog_text = "Multiple C# solutions found.\nCannot setup."
+		elif output[0] == "csproj":
+			dialog.dialog_text = "C# solution not found (.csproj file).\nYou need to setup Godot Mono first:\nProject -> Tools -> Mono -> Create C# solution."
+		elif output[0].begins_with("dirty:"):
+			dialog.dialog_text = "Project already contains: " + output[0].substr(6) + "\nTo avoid data loss the setup wasn't run."
+		elif output[0] == "ok":
+			dialog.dialog_text = "Setup successful."
+		else:
+			dialog.dialog_text = "Unknown error: " + output[0]
+		
+		dialog.theme = theme
+		dialog.window_title = "Haxe Setup"
+		dialog.popup_centered()
 	else:
 		print("Unknown menu: ", id)
