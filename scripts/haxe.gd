@@ -3,16 +3,19 @@ class_name HaxePlugin
 extends EditorPlugin
 
 var about_dialog := preload("res://addons/haxe/scenes/about.tscn")
+var tab := preload("res://addons/haxe/scenes/tab.tscn").instance()
 
 var inspector_plugin:HaxePluginInspectorPlugin
 
 func _enter_tree() -> void:
+	var base := get_editor_interface().get_base_control()
+	
 	# Init
 	setup_settings()
 
 	# Inspector plugin
 	inspector_plugin = HaxePluginInspectorPlugin.new()
-	inspector_plugin.setup(get_editor_interface().get_base_control())
+	inspector_plugin.setup(base)
 	add_inspector_plugin(inspector_plugin)
 
 	# Tool menu entry
@@ -21,8 +24,15 @@ func _enter_tree() -> void:
 	menu.add_item("Setup")
 	menu.connect("index_pressed", self, "on_menu")
 	add_tool_submenu_item("Haxe", menu)
+	
+	# Bottom dock tab
+	tab.setup(base)
+	add_control_to_bottom_panel(tab, "Haxe")
 
 func _exit_tree() -> void:
+	# TODO tab.gd still leaks?
+	remove_control_from_bottom_panel(tab)
+	tab.queue_free()
 	remove_tool_menu_item("Haxe")
 	remove_inspector_plugin(inspector_plugin)
 
