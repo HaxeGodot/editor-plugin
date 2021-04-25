@@ -46,7 +46,7 @@ func setup_settings() -> void:
 			"name": HaxePluginConstants.SETTING_EXTERNAL_EDITOR,
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_ENUM,
-			"hint_string": "VSCode"
+			"hint_string": "None,VSCode"
 		});
 
 func on_menu(id:int) -> void:

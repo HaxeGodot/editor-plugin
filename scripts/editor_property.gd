@@ -112,7 +112,9 @@ func on_create(is_load:bool, class_value:String, path_value:String) -> void:
 
 func open_file(path:String) -> void:
 	var editor:String = ProjectSettings.get(HaxePluginConstants.SETTING_EXTERNAL_EDITOR)
-	if editor == "VSCode":
+	if editor == "None":
+		pass
+	elif editor == "VSCode":
 		OS.execute("code", [ProjectSettings.globalize_path(path)], false)
 	else:
 		print("Unknown external editor: " + editor)
