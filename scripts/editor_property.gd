@@ -7,50 +7,40 @@ var new_script_dialog := preload("res://addons/haxe/scenes/new_script.tscn")
 
 var base:Control
 var object:Node
+var script_name := ""
 var script_path := ""
+var b:MenuButton
+var b2:MenuButton
 
 func setup(base:Control, object:Node) -> void:
 	self.base = base
 	self.object = object
 	label = "Haxe Script"
 	
-	var script_name := "[empty]"
-	
-	if object.has_meta("haxe_script"):
-		if not object.get_script():
-			object.remove_meta("haxe_script")
-		else:
-			script_path = object.get_meta("haxe_script")
-			var p := script_path.find_last("/")
-			script_name = script_path.substr(p + 1)
-	
-	var has_script := script_path != ""
-	
 	var h := HBoxContainer.new()
 	
 	# TODO revert icon
-	var b := MenuButton.new()
+	b = MenuButton.new()
 	b.flat = true
-	if has_script:
-		b.icon = haxe_icon
-	b.text = script_name
-	b.hint_tooltip = script_path
-	b.size_flags_horizontal = MenuButton.SIZE_EXPAND_FILL
-	setup_menu(base, b, has_script)
 	h.add_child(b)
 	
-	var b2 := MenuButton.new()
+	b2 = MenuButton.new()
 	b2.flat = true
 	b2.icon = base.get_icon("GuiDropdown", "EditorIcons")
-	setup_menu(base, b2, has_script)
 	h.add_child(b2)
 	
 	add_child(h)
+	
+	update_property()
 
 func setup_menu(base:Control, button:MenuButton, has_script:bool) -> void:
-	button.connect("gui_input", self, "on_menu_gui")
+	if not button.is_connected("gui_input", self, "on_menu_gui"):
+		button.connect("gui_input", self, "on_menu_gui")
 	
 	var menu := button.get_popup()
+	
+	for i in range(menu.get_item_count()):
+		menu.remove_item(0)
 	
 	if not has_script:
 		menu.add_icon_item(base.get_icon("ScriptCreate", "EditorIcons"), "New Haxe Script")
@@ -62,7 +52,8 @@ func setup_menu(base:Control, button:MenuButton, has_script:bool) -> void:
 	if has_script:
 		menu.add_icon_item(base.get_icon("Edit", "EditorIcons"), "Edit")
 	
-	menu.connect("index_pressed", self, "on_popup_select", [has_script])
+	if not menu.is_connected("index_pressed", self, "on_popup_select"):
+		menu.connect("index_pressed", self, "on_popup_select", [has_script])
 
 func on_menu_gui(event:InputEvent) -> void:
 	# If is right click then pretend it's a left click
@@ -130,3 +121,28 @@ func on_load_file(path:String) -> void:
 		cs_file.store_string("\n")
 	cs_file.close()
 	object.set_script(load(cs_path))
+
+func update_property() -> void:
+	var script_name := "[empty]"
+	
+	if object.has_meta("haxe_script"):
+		if not object.get_script():
+			object.remove_meta("haxe_script")
+		else:
+			script_path = object.get_meta("haxe_script")
+			var p := script_path.find_last("/")
+			script_name = script_path.substr(p + 1)
+	
+	var has_script := script_path != ""
+	
+	b.size_flags_horizontal = MenuButton.SIZE_EXPAND_FILL
+	if has_script:
+		b.icon = haxe_icon
+	b.text = script_name
+	b.hint_tooltip = script_path
+	setup_menu(base, b, has_script)
+	
+	setup_menu(base, b2, has_script)
+
+func get_tooltip_text() -> String:
+	return "Haxe Script"
