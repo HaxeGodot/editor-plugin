@@ -4,7 +4,7 @@
 
 # Godot Editor Haxe Support Plugin
 
-Godot engine editor plugin to help with Haxe development.
+Godot 3.3 engine editor plugin to help with Haxe development.
 
 The plugin is still in alpha, open an [issue](https://github.com/HaxeGodot/editor-plugin/issues) for bug reports or feature requests.
 
@@ -19,14 +19,14 @@ You need to enable the plugin by going in the Project -> Project Settings menu, 
 
 ## Setup
 
-Haxe support requires Godot C#, if it hasn't been setup click on Project -> Tools -> Mono -> Create C# solution.
+Haxe support requires Godot C#, if it hasn't been setup click on Project -> Tools -> C# -> Create C# solution.
 
 The plugin can setup by clicking on the Project -> Tools -> Haxe -> Setup menu.
 
 This will check for the presence of the godot haxelib, update the C# solution and add a hxml.
 If the project already contains some of these files the setup will be stopped.
 
-You can also do a [manual setup](#ManualSetup) if you want more control.
+You can also do a [manual setup](#manual-setup) if you want more control.
 
 ## Haxe scripts
 
