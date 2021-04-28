@@ -5,6 +5,9 @@ signal create(is_load, class_value, path_value)
 
 var base:Control
 
+var cancel_button:Button
+var create_button:Button
+
 var class_valid := true
 var path_valid := true
 var name_valid := true
@@ -14,14 +17,19 @@ var is_load := false
 var class_value := ""
 var path_value := ""
 
-func _ready() -> void:
-	$MarginContainer/VBoxContainer/Buttons/Cancel.connect("button_down", self, "on_cancel")
-	$MarginContainer/VBoxContainer/Buttons/Create.connect("button_down", self, "on_create")
-	$MarginContainer/VBoxContainer/GridContainer/ClassValue.connect("text_changed", self, "on_class")
-	$MarginContainer/VBoxContainer/GridContainer/Path/PathValue.connect("text_changed", self, "on_path")
-	
 func setup(base:Control, class_value:String, name:String) -> void:
 	self.base = base
+	
+	var left := $MarginContainer/VBoxContainer/Buttons/Left
+	var right := $MarginContainer/VBoxContainer/Buttons/Right
+	
+	if OS.get_name() == "Windows" or OS.get_name() == "UWP":
+		setup_buttons(right, left)
+	else:
+		setup_buttons(left, right)
+	
+	$MarginContainer/VBoxContainer/GridContainer/ClassValue.connect("text_changed", self, "on_class")
+	$MarginContainer/VBoxContainer/GridContainer/Path/PathValue.connect("text_changed", self, "on_path")
 	
 	var path_button := $MarginContainer/VBoxContainer/GridContainer/Path/Load
 	path_button.icon = base.get_icon("Folder", "EditorIcons")
@@ -29,6 +37,15 @@ func setup(base:Control, class_value:String, name:String) -> void:
 	
 	on_class(class_value)
 	on_path("res://scripts/" + name.substr(0, 1).to_upper() + name.substr(1) + ".hx")
+
+func setup_buttons(cancel:Button, create:Button) -> void:
+	cancel.text = "Cancel"
+	cancel.connect("button_down", self, "on_cancel")
+	cancel_button = cancel
+	
+	create.text = "Create"
+	create.connect("button_down", self, "on_create")
+	create_button = create
 
 func on_cancel() -> void:
 	hide()
@@ -84,7 +101,6 @@ func on_path(fullpath:String) -> void:
 	revalidate()
 
 func revalidate() -> void:
-	var create_button := $MarginContainer/VBoxContainer/Buttons/Create
 	var text_edit := $MarginContainer/VBoxContainer/TextEdit
 	var valid := false
 	

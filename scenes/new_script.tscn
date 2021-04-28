@@ -112,8 +112,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
-margin_left = 92.0
+[node name="Left" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
+margin_left = 134.0
 margin_right = 146.0
 margin_bottom = 20.0
 text = "Cancel"
@@ -127,8 +127,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Create" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
+[node name="Right" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
 margin_left = 184.0
-margin_right = 237.0
+margin_right = 196.0
 margin_bottom = 20.0
 text = "Create"
