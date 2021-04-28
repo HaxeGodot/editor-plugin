@@ -107,28 +107,20 @@ rect_min_size = Vector2( 0, 10 )
 margin_top = 150.0
 margin_right = 330.0
 margin_bottom = 170.0
+custom_constants/separation = 96
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
-margin_left = 92.0
-margin_right = 146.0
-margin_bottom = 20.0
-text = "Cancel"
-
-[node name="Padding" type="Control" parent="MarginContainer/VBoxContainer/Buttons"]
-margin_left = 150.0
-margin_right = 180.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 30, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Create" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
-margin_left = 184.0
-margin_right = 237.0
+margin_left = 63.0
+margin_right = 116.0
 margin_bottom = 20.0
 text = "Create"
+
+[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
+margin_left = 212.0
+margin_right = 266.0
+margin_bottom = 20.0
+text = "Cancel"
