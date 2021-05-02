@@ -64,7 +64,7 @@ function main() {
 
 	// Create project.
 	FileSystem.createDirectory("scripts");
-	File.saveContent("scripts/import.hx", "import godot.*;\nimport godot.GD.*;\n");
+	File.saveContent("scripts/import.hx", "import godot.*;\nimport godot.GD.*;\n\nusing godot.Utils;\n");
 	File.saveContent("build.hxml", "--cs build\n--define net-ver=50\n--define no-compilation\n--define analyzer-optimize\n--class-path scripts\n--library godot\n--macro godot.Godot.buildProject()\n--dce full\n");
 
 	final ret = Sys.command("haxe", ["build.hxml"]);
