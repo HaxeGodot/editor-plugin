@@ -92,9 +92,19 @@ func on_create(is_load:bool, class_value:String, path_value:String) -> void:
 		var f := path_value.find_last("/")
 		var name := path_value.substr(f + 1, path_value.find_last(".hx") - f - 1)
 		
+		var d := path_value.substr(14).split("/")
+		d.remove(d.size() - 1)
+		
+		var pack := d.join(".")
+		if not pack.empty():
+			pack = " " + pack;
+		
+		if class_value == name:
+			class_value = "godot." + class_value
+		
 		var file := File.new()
 		file.open(path_value, File.WRITE)
-		file.store_string("class " + name + " extends " + class_value + " {\n}\n")
+		file.store_string("package" + pack + ";\n\nclass " + name + " extends " + class_value + " {\n}\n")
 		file.close()
 		
 		open_file(path_value)
@@ -112,15 +122,21 @@ func open_file(path:String) -> void:
 
 func on_load_file(path:String) -> void:
 	object.set_meta("haxe_script", path)
-	var cs_path := path.replace("res://scripts/", "res://build/src/")
-	var p := cs_path.find_last(".hx")
-	cs_path = cs_path.substr(0, p) + ".cs"
+	var cs_path := path.replace("res://scripts", "")
+	var p := cs_path.find_last("/")
+	var name := cs_path.substr(p, cs_path.length() - 2 - p) + "cs"
+	cs_path = "build/src" + cs_path.substr(0, p)
+	
+	var d := Directory.new()
+	d.make_dir_recursive(cs_path)
+	
+	var file_path := "res://" + cs_path + name
 	var cs_file := File.new()
-	if not cs_file.file_exists(cs_path):
-		cs_file.open(cs_path, File.WRITE)
+	if not cs_file.file_exists(file_path):
+		cs_file.open(file_path, File.WRITE)
 		cs_file.store_string("\n")
 	cs_file.close()
-	object.set_script(load(cs_path))
+	object.set_script(load(file_path))
 
 func update_property() -> void:
 	var script_name := "[empty]"
