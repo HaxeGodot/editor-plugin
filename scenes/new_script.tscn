@@ -4,7 +4,7 @@
 
 [node name="NewScript" type="WindowDialog"]
 margin_right = 350.0
-margin_bottom = 190.0
+margin_bottom = 270.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 window_title = "Attach Node Haxe Script"
@@ -26,7 +26,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 margin_right = 330.0
-margin_bottom = 170.0
+margin_bottom = 250.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -84,36 +84,32 @@ margin_right = 330.0
 margin_bottom = 66.0
 rect_min_size = Vector2( 0, 10 )
 
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer"]
+[node name="TextEdit" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
 margin_top = 70.0
 margin_right = 330.0
-margin_bottom = 132.0
-focus_mode = 0
+margin_bottom = 212.0
+rect_min_size = Vector2( 0, 110 )
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0, 1, 0, 1 )
-text = "- Haxe script path is valid.
-- Will create a new Haxe script."
-readonly = true
-syntax_highlighting = true
-selecting_enabled = false
+bbcode_enabled = true
+scroll_active = false
 
 [node name="PaddingBottom" type="Control" parent="MarginContainer/VBoxContainer"]
-margin_top = 136.0
+margin_top = 216.0
 margin_right = 330.0
-margin_bottom = 146.0
+margin_bottom = 226.0
 rect_min_size = Vector2( 0, 10 )
 
 [node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 150.0
+margin_top = 230.0
 margin_right = 330.0
-margin_bottom = 170.0
+margin_bottom = 250.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Left" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
-margin_left = 134.0
+margin_left = 92.0
 margin_right = 146.0
 margin_bottom = 20.0
 text = "Cancel"
@@ -129,6 +125,6 @@ __meta__ = {
 
 [node name="Right" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
 margin_left = 184.0
-margin_right = 196.0
+margin_right = 237.0
 margin_bottom = 20.0
 text = "Create"

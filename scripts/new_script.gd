@@ -11,6 +11,7 @@ var create_button:Button
 var class_valid := true
 var path_valid := true
 var name_valid := true
+var name_warning := false
 var extension_valid := true
 
 var is_load := false
@@ -97,35 +98,53 @@ func on_path(fullpath:String) -> void:
 	is_load = f.file_exists(path_value)
 	extension_valid = file.ends_with(".hx")
 	name_valid = ext_p < fullpath.length() - 1 and ext_p > dir_p + 1
+	name_warning = name_valid && extension_valid && isBuiltin(file.substr(0, file.length() - 3))
 	path_valid = path.begins_with("res://") and d.dir_exists(path)
 	revalidate()
 
+func isBuiltin(name:String) -> bool:
+	var haxeGodotBuiltins = ["Action", "CustomSignal", "CustomSignalUsings", "Godot", "Nullable1", "Signal", "SignalUsings", "Utils"]
+	return ClassDB.class_exists(name) or haxeGodotBuiltins.has(name)
+
 func revalidate() -> void:
 	var text_edit := $MarginContainer/VBoxContainer/TextEdit
-	var valid := false
+	text_edit.bbcode_text = ""
+	
+	var valid_color := Color(0.062775, 0.730469, 0.062775)
+	var error_color := Color(0.820312, 0.028839, 0.028839)
+	var warning_color := Color(0.9375, 0.537443, 0.06958)
 	
 	if not class_valid:
-		text_edit.text = "- Invalid inherited parent name."
+		text_edit.push_color(error_color)
+		text_edit.append_bbcode("- Invalid inherited parent name.\n\n")
+		text_edit.pop()
 	elif not extension_valid:
-		text_edit.text = "- Invalid extension."
+		text_edit.push_color(error_color)
+		text_edit.append_bbcode("- Invalid extension.\n\n")
+		text_edit.pop()
 	elif not path_valid:
-		text_edit.text = "- Invalid path."
+		text_edit.push_color(error_color)
+		text_edit.append_bbcode("- Invalid path.\n\n")
+		text_edit.pop()
 	elif not name_valid:
-		text_edit.text = "- Invalid filename."
+		text_edit.push_color(error_color)
+		text_edit.append_bbcode("- Invalid filename.\n\n")
+		text_edit.pop()
 	else:
-		text_edit.text = "- Haxe script path is valid."
+		text_edit.push_color(valid_color)
+		text_edit.append_bbcode("- Haxe script path is valid.\n\n")
+		
 		if is_load:
-			text_edit.text += "\n- Will load an existing Haxe script."
+			text_edit.append_bbcode("- Will load an existing Haxe script.\n\n")
 		else:
-			text_edit.text += "\n- Will create a new Haxe script."
-		valid = true
-	
-	if valid:
-		text_edit.add_color_override("font_color", Color(0.0, 1.0, 0.0))
-		create_button.disabled = false
-	else:
-		text_edit.add_color_override("font_color", Color(1.0, 0.0, 0.0))
-		create_button.disabled = true
+			text_edit.append_bbcode("- Will create a new Haxe script.\n\n")
+		
+		text_edit.pop()
+		
+		if name_warning:
+			text_edit.push_color(warning_color)
+			text_edit.append_bbcode("Warning: Having the script name be the same as a built-in type is usually not desired.\n\n")
+			text_edit.pop()
 	
 	var class_edit:LineEdit = $MarginContainer/VBoxContainer/GridContainer/ClassValue
 	var class_edit_column := class_edit.caret_position
