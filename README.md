@@ -36,13 +36,13 @@ When creating or clicking Edit on an script it'll open in your editor. By defaul
 
 ### Building
 
-You need to save your scenes after adding a Haxe script for it to be registered during the compilation.
-
 You need to build the Haxe code before launching your game, you can do that:
 
 * by manually using the hxml `haxe build.hxml`
 * through your editor
 * directly in the Godot editor in the bottom tab Haxe -> Build Haxe Project
+
+Note: The files in `scripts/` must all define their main type, for a file `Foo.hx` you must have the type `Foo`, otherwise compilation will fail.
 
 ## Manual setup
 
