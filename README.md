@@ -13,6 +13,8 @@ The plugin is still in alpha, open an [issue](https://github.com/HaxeGodot/edito
 The plugin isn't yet available on the godot asset library, to install it you can either:
 
 * [download this repository](https://github.com/HaxeGodot/editor-plugin/archive/refs/heads/main.zip) and extract it in the `addons/haxe` folder of your project
+  
+  You need to remove the `editor-plugin-main` folder added by github: have `addons/haxe/plugin.cfg` not `addons/haxe/editor-plugin-main/plugin.cfg`
 * add it as a submodule `git submodule add https://github.com/HaxeGodot/editor-plugin.git addons/haxe`
 
 You need to enable the plugin by going in the Project -> Project Settings menu, Plugins tab, and checking the Enabled box for the Haxe plugin.
