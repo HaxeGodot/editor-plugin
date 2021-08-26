@@ -5,71 +5,73 @@ import sys.io.File;
 
 using StringTools;
 
-function main() {
-	// Checking haxelib for godot externs.
-	final haxelibCheck = new Process("haxelib", ["path", "godot"]);
-	if (haxelibCheck.exitCode() != 0) {
-		Sys.print("haxelib");
-		return;
-	}
-
-	// Find unique csproj file.
-	var csproj = null;
-
-	for (entry in FileSystem.readDirectory(".")) {
-		if (FileSystem.isDirectory(entry)) {
-			continue;
+class Main {
+	public static function main() {
+		// Checking haxelib for godot externs.
+		final haxelibCheck = new Process("haxelib", ["path", "godot"]);
+		if (haxelibCheck.exitCode() != 0) {
+			Sys.print("haxelib");
+			return;
 		}
 
-		if (entry.endsWith(".csproj")) {
-			if (csproj != null) {
-				Sys.print("multiple_csproj");
-				return;
+		// Find unique csproj file.
+		var csproj = null;
+
+		for (entry in FileSystem.readDirectory(".")) {
+			if (FileSystem.isDirectory(entry)) {
+				continue;
 			}
 
-			csproj = entry;
+			if (entry.endsWith(".csproj")) {
+				if (csproj != null) {
+					Sys.print("multiple_csproj");
+					return;
+				}
+
+				csproj = entry;
+			}
 		}
-	}
 
-	if (csproj == null) {
-		Sys.print("csproj");
-		return;
-	}
-
-	// Dirty check.
-	final dirty = ["build.hxml", "build/", "scripts/"].filter(entry -> FileSystem.exists(entry));
-
-	if (dirty.length != 0) {
-		Sys.print("dirty:" + dirty.join(" "));
-		return;
-	}
-
-	// Update csproj file.
-	final csprojData = new Access(Xml.parse(File.getContent(csproj)));
-	final propertyGroup = csprojData.node.Project.node.PropertyGroup;
-
-	for (property in propertyGroup.elements) {
-		switch (property.name) {
-			case "AllowUnsafeBlocks", "TargetFramework":
-				propertyGroup.x.removeChild(property.x);
-
-			default:
+		if (csproj == null) {
+			Sys.print("csproj");
+			return;
 		}
-	}
 
-	propertyGroup.x.addChild(Xml.parse("<AllowUnsafeBlocks>true</AllowUnsafeBlocks>"));
-	propertyGroup.x.addChild(Xml.parse("<TargetFramework>netstandard2.1</TargetFramework>"));
+		// Dirty check.
+		final dirty = ["build.hxml", "build/", "scripts/"].filter(entry -> FileSystem.exists(entry));
 
-	File.saveContent(csproj, XmlPrinter.print(csprojData.x));
+		if (dirty.length != 0) {
+			Sys.print("dirty:" + dirty.join(" "));
+			return;
+		}
 
-	// Create project.
-	FileSystem.createDirectory("scripts");
-	File.saveContent("scripts/import.hx", "import godot.*;\nimport godot.GD.*;\n\nusing godot.Utils;\n");
-	File.saveContent("build.hxml", "--cs build\n--define net-ver=50\n--define no-compilation\n--define analyzer-optimize\n--class-path scripts\n--library godot\n--macro godot.Godot.buildProject()\n--dce full\n");
+		// Update csproj file.
+		final csprojData = new Access(Xml.parse(File.getContent(csproj)));
+		final propertyGroup = csprojData.node.Project.node.PropertyGroup;
 
-	final ret = Sys.command("haxe", ["build.hxml"]);
-	if (ret == 0) {
-		Sys.print("ok");
+		for (property in propertyGroup.elements) {
+			switch (property.name) {
+				case "AllowUnsafeBlocks", "TargetFramework":
+					propertyGroup.x.removeChild(property.x);
+
+				default:
+			}
+		}
+
+		propertyGroup.x.addChild(Xml.parse("<AllowUnsafeBlocks>true</AllowUnsafeBlocks>"));
+		propertyGroup.x.addChild(Xml.parse("<TargetFramework>netstandard2.1</TargetFramework>"));
+
+		File.saveContent(csproj, XmlPrinter.print(csprojData.x));
+
+		// Create project.
+		FileSystem.createDirectory("scripts");
+		File.saveContent("scripts/import.hx", "import godot.*;\nimport godot.GD.*;\n\nusing godot.Utils;\n");
+		File.saveContent("build.hxml", "--cs build\n--define net-ver=50\n--define no-compilation\n--define analyzer-optimize\n--class-path scripts\n--library godot\n--macro godot.Godot.buildProject()\n--dce full\n");
+
+		final ret = Sys.command("haxe", ["build.hxml"]);
+		if (ret == 0) {
+			Sys.print("ok");
+		}
 	}
 }
 
