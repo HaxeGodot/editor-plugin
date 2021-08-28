@@ -5,7 +5,7 @@ import sys.io.File;
 
 using StringTools;
 
-class Main {
+class Setup {
 	public static function main() {
 		// Checking haxelib for godot externs.
 		final haxelibCheck = new Process("haxelib", ["path", "godot"]);
