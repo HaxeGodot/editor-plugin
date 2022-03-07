@@ -49,6 +49,9 @@ func setup_settings() -> void:
 			"hint_string": "None,VSCode"
 		});
 
+	if not ProjectSettings.has_setting(HaxePluginConstants.BUILD_ON_PLAY):
+		ProjectSettings.set_setting(HaxePluginConstants.BUILD_ON_PLAY, true)
+
 func on_menu(id:int) -> void:
 	var theme := get_editor_interface().get_base_control().theme
 	
@@ -88,6 +91,6 @@ func on_menu(id:int) -> void:
 		print("Unknown menu: ", id)
 
 func _input(event):
-	if event is InputEventKey:
+	if event is InputEventKey and ProjectSettings.get_setting(HaxePluginConstants.BUILD_ON_PLAY):
 		if event.scancode == KEY_F5 or event.scancode == KEY_F6 and event.echo:
-			tab.build_haxe_project()
+			OS.execute("haxe", ["build.hxml"], true);
