@@ -86,3 +86,8 @@ func on_menu(id:int) -> void:
 		dialog.popup_centered()
 	else:
 		print("Unknown menu: ", id)
+
+func _input(event):
+	if event is InputEventKey:
+		if event.scancode == KEY_F5 or event.scancode == KEY_F6 and event.echo:
+			tab.build_haxe_project()
