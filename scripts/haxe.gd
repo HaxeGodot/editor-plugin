@@ -4,6 +4,7 @@ extends EditorPlugin
 
 var about_dialog := preload("res://addons/haxe/scenes/about.tscn")
 var tab := preload("res://addons/haxe/scenes/tab.tscn").instance()
+var build_dialog := preload("res://addons/haxe/scenes/building.tscn")
 
 var inspector_plugin:HaxePluginInspectorPlugin
 
@@ -50,7 +51,7 @@ func setup_settings() -> void:
 		});
 
 	if not ProjectSettings.has_setting(HaxePluginConstants.BUILD_ON_PLAY):
-		ProjectSettings.set_setting(HaxePluginConstants.BUILD_ON_PLAY, true)
+		ProjectSettings.set_setting(HaxePluginConstants.BUILD_ON_PLAY, false)
 
 func on_menu(id:int) -> void:
 	var theme := get_editor_interface().get_base_control().theme
@@ -93,4 +94,10 @@ func on_menu(id:int) -> void:
 func _input(event):
 	if event is InputEventKey and ProjectSettings.get_setting(HaxePluginConstants.BUILD_ON_PLAY):
 		if event.scancode == KEY_F5 or event.scancode == KEY_F6 and event.echo:
-			OS.execute("haxe", ["build.hxml"], true);
+			var dialog = build_dialog.instance()
+
+			add_child(dialog)
+
+			yield(VisualServer, 'frame_post_draw')
+
+			dialog.call("build_haxe_project")
