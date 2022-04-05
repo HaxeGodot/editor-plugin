@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/haxe/scripts/building.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.219608, 0.211765, 0.227451, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.270588, 0.270588, 0.270588, 1 )
+corner_radius_top_left = 4
+
+[node name="Control" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -152.0
+margin_top = -38.5
+margin_right = 152.0
+margin_bottom = 38.5
+script = ExtResource( 1 )
+
+[node name="Background" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 26.0
+text = "Building Haxe project..."
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 11.0
+margin_top = -6.5
+margin_right = -11.0
+margin_bottom = 7.5
+max_value = 1.0
